@@ -7,6 +7,7 @@ return require('packer').startup(function(use)
 	use 'nvim-tree/nvim-web-devicons'
 	use 'prichrd/netrw.nvim'
     use 'terrortylor/nvim-comment'
+    use 'romgrk/barbar.nvim'
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.8',
@@ -25,5 +26,16 @@ return require('packer').startup(function(use)
 		'nvim-treesitter/nvim-treesitter',
 		{ run = ':TSUpdate' }
 	}
+
+    use {
+        'glepnir/template.nvim',
+        cmd = {'Template','TemProject'},
+        config = function()
+            require('template').setup({
+                temp_dir = '~/templates/'
+            })
+        end
+    }
+
 
 end)

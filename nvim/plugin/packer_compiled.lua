@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/uwusny/.cache/nvim/packer_hererocks/2.1.1727870382/share/lua/5.1/?.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1727870382/share/lua/5.1/?/init.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1727870382/lib/luarocks/rocks-5.1/?.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1727870382/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/uwusny/.cache/nvim/packer_hererocks/2.1.1727870382/lib/lua/5.1/?.so"
+local package_path_str = "/home/uwusny/.cache/nvim/packer_hererocks/2.1.1731601260/share/lua/5.1/?.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1731601260/share/lua/5.1/?/init.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1731601260/lib/luarocks/rocks-5.1/?.lua;/home/uwusny/.cache/nvim/packer_hererocks/2.1.1731601260/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/uwusny/.cache/nvim/packer_hererocks/2.1.1731601260/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["barbar.nvim"] = {
+    loaded = true,
+    path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/barbar.nvim",
+    url = "https://github.com/romgrk/barbar.nvim"
+  },
   harpoon = {
     loaded = true,
     path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/harpoon",
@@ -83,11 +88,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/netrw.nvim",
     url = "https://github.com/prichrd/netrw.nvim"
-  },
-  ["nvim-colorizer.lua"] = {
-    loaded = true,
-    path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
-    url = "https://github.com/norcalli/nvim-colorizer.lua"
   },
   ["nvim-comment"] = {
     loaded = true,
@@ -125,6 +125,15 @@ _G.packer_plugins = {
     path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
+  ["template.nvim"] = {
+    commands = { "Template", "TemProject" },
+    config = { "\27LJ\2\nS\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\rtemp_dir\17~/templates/\nsetup\rtemplate\frequire\0" },
+    loaded = false,
+    needs_bufread = false,
+    only_cond = false,
+    path = "/home/uwusny/.local/share/nvim/site/pack/packer/opt/template.nvim",
+    url = "https://github.com/glepnir/template.nvim"
+  },
   undotree = {
     loaded = true,
     path = "/home/uwusny/.local/share/nvim/site/pack/packer/start/undotree",
@@ -137,6 +146,25 @@ time([[Defining packer_plugins]], false)
 time([[Config for rose-pine]], true)
 try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\0056\0\0\0009\0\1\0'\2\2\0B\0\2\1K\0\1\0\26colorscheme rose-pine\bcmd\bvim\0", "config", "rose-pine")
 time([[Config for rose-pine]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.api.nvim_create_user_command, 'TemProject', function(cmdargs)
+          require('packer.load')({'template.nvim'}, { cmd = 'TemProject', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'template.nvim'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('TemProject ', 'cmdline')
+      end})
+pcall(vim.api.nvim_create_user_command, 'Template', function(cmdargs)
+          require('packer.load')({'template.nvim'}, { cmd = 'Template', l1 = cmdargs.line1, l2 = cmdargs.line2, bang = cmdargs.bang, args = cmdargs.args, mods = cmdargs.mods }, _G.packer_plugins)
+        end,
+        {nargs = '*', range = true, bang = true, complete = function()
+          require('packer.load')({'template.nvim'}, {}, _G.packer_plugins)
+          return vim.fn.getcompletion('Template ', 'cmdline')
+      end})
+time([[Defining lazy-load commands]], false)
+
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
